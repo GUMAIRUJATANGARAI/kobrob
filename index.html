@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>you with me</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Charmonman:wght@400;700&family=Mali:wght@300;400;500;600;700&family=Caveat:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fffdf8;
+    --white:#ffffff;
+    --gold:#c9a15a;
+    --gold-soft:#e8d5ac;
+    --pink:#f6c9d4;
+    --pink-deep:#e39aad;
+    --ink:#4a3a34;
+    --ink-soft:#8a7369;
+    --line: linear-gradient(180deg, var(--gold-soft), var(--pink), var(--gold-soft));
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(600px 400px at 10% 5%, rgba(246,201,212,.35), transparent 60%),
+      radial-gradient(700px 500px at 90% 15%, rgba(201,161,90,.15), transparent 60%),
+      radial-gradient(500px 400px at 15% 70%, rgba(246,201,212,.25), transparent 60%),
+      radial-gradient(650px 500px at 85% 85%, rgba(201,161,90,.12), transparent 60%),
+      var(--cream);
+    font-family:'Mali', 'Cormorant Garamond', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------- Outer sparkly frame ---------- */
+  .frame-border{
+    position:fixed;
+    inset:10px;
+    border:2px solid var(--gold-soft);
+    border-radius:14px;
+    pointer-events:none;
+    z-index:1000;
+  }
+  .frame-border::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px solid var(--pink);
+    border-radius:10px;
+    opacity:.6;
+  }
+  .corner-flourish{
+    position:fixed;
+    width:60px;height:60px;
+    z-index:1001;
+    pointer-events:none;
+    opacity:.55;
+  }
+  .corner-flourish svg{width:100%;height:100%;display:block;}
+  .corner-tl{top:6px;left:6px;}
+  .corner-tr{top:6px;right:6px;transform:scaleX(-1);}
+  .corner-bl{bottom:6px;left:6px;transform:scaleY(-1);}
+  .corner-br{bottom:6px;right:6px;transform:scale(-1,-1);}
+  .frame-sparkle{
+    position:fixed;
+    z-index:1001;
+    color:var(--gold);
+    font-size:13px;
+    pointer-events:none;
+    animation:twinkle 3.4s ease-in-out infinite;
+  }
+
+  @media (max-width:640px){
+    .frame-border{display:none;}
+    .corner-flourish{width:38px;height:38px;}
+    .frame-sparkle{display:none;}
+  }
+
+  /* ---------- Floating ambient doodles ---------- */
+  .ambient{
+    position:absolute;
+    pointer-events:none;
+    opacity:.55;
+    animation:float 7s ease-in-out infinite;
+    z-index:0;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0) rotate(var(--r, 0deg));}
+    50%{transform:translateY(-16px) rotate(var(--r, 0deg));}
+  }
+  .sparkle{
+    position:absolute;
+    font-size:18px;
+    color:var(--gold);
+    opacity:.7;
+    animation:twinkle 3s ease-in-out infinite;
+    z-index:1;
+  }
+  @keyframes twinkle{0%,100%{opacity:.2;transform:scale(.85);}50%{opacity:.95;transform:scale(1.15);}}
+
+  /* ---------- Header ---------- */
+  header{
+    text-align:center;
+    padding:70px 20px 22px;
+    position:relative;
+  }
+
+  h1.title{
+    font-family:'Great Vibes', cursive;
+    font-size:clamp(48px, 12vw, 88px);
+    color:var(--pink-deep);
+    margin:0;
+    text-shadow: 0 2px 0 rgba(201,161,90,.25);
+    letter-spacing:1px;
+    position:relative;
+    z-index:2;
+  }
+  .title-flourish{
+    display:block;
+    margin:2px auto 0;
+    width:180px;
+    opacity:.7;
+  }
+  .subtitle{
+    font-family:'Charmonman', cursive;
+    font-size:19px;
+    color:var(--ink-soft);
+    margin-top:2px;
+    letter-spacing:1px;
+    position:relative;
+    z-index:2;
+  }
+
+  .year-switch{
+    margin-top:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    position:relative;
+    z-index:2;
+  }
+  .year-switch button{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1px solid var(--gold-soft);
+    background:var(--white);
+    color:var(--gold);
+    font-size:18px;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 2px 8px rgba(201,161,90,.15);
+  }
+  .year-switch button:hover{background:var(--pink);color:var(--white);border-color:var(--pink);}
+  .year-switch input{
+    width:110px;
+    text-align:center;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:32px;
+    color:var(--ink);
+    border:none;
+    border-bottom:2px solid var(--gold-soft);
+    background:transparent;
+    outline:none;
+    -moz-appearance:textfield;
+  }
+  .year-switch input::-webkit-outer-spin-button,
+  .year-switch input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+
+  .hint{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14px;
+    margin-top:12px;
+    font-family:'Mali', sans-serif;
+    position:relative;
+    z-index:2;
+  }
+
+  /* ---------- Music control ---------- */
+  .music-row{
+    margin-top:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    position:relative;
+    z-index:2;
+  }
+  .music-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--white);
+    border:1px solid var(--gold-soft);
+    color:var(--pink-deep);
+    font-family:'Mali', sans-serif;
+    font-size:13px;
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    box-shadow:0 2px 8px rgba(201,161,90,.15);
+    transition:.2s;
+  }
+  .music-btn:hover{background:var(--pink);color:#fff;}
+
+  .music-fab{
+    position:fixed;
+    bottom:22px;
+    right:22px;
+    width:56px;height:56px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--pink), var(--gold-soft));
+    color:#fff;
+    border:none;
+    font-size:22px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(74,58,52,.3);
+    z-index:1002;
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{box-shadow:0 6px 18px rgba(74,58,52,.3);}50%{box-shadow:0 6px 24px rgba(227,154,173,.55);}}
+  .music-fab.playing{animation:spin 6s linear infinite;}
+  @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    max-width:900px;
+    margin:50px auto 100px;
+    position:relative;
+    padding:0 16px;
+    z-index:2;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:3px;
+    transform:translateX(-50%);
+    background: var(--line);
+    border-radius:3px;
+  }
+
+  .month-row{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    margin-bottom:78px;
+  }
+  .month-row:last-child{margin-bottom:0;}
+
+  .node{
+    position:absolute;
+    left:50%;
+    top:6px;
+    transform:translateX(-50%);
+    background:var(--white);
+    border:2px solid var(--gold);
+    color:var(--gold);
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:14px;
+    padding:5px 16px;
+    border-radius:20px;
+    white-space:nowrap;
+    box-shadow:0 3px 10px rgba(201,161,90,.2);
+    z-index:3;
+  }
+  .node::before, .node::after{
+    content:"✦";
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:10px;
+    color:var(--pink-deep);
+  }
+  .node::before{left:-16px;}
+  .node::after{right:-16px;}
+
+  .side{
+    width:44%;
+    display:flex;
+    align-items:center;
+  }
+  .side.left{margin-right:auto;justify-content:flex-end;}
+  .side.right{margin-left:auto;justify-content:flex-start;}
+  .month-row.empty-left .side.left .doodle-wrap,
+  .month-row.empty-right .side.right .doodle-wrap{visibility:visible;}
+
+  .doodle-wrap{
+    opacity:.55;
+    width:70px;
+    height:70px;
+  }
+  .doodle-wrap svg{width:100%;height:100%;}
+
+  /* ---------- Polaroid ---------- */
+  .polaroid{
+    background:var(--white);
+    padding:14px 14px 44px;
+    width:230px;
+    box-shadow:0 10px 25px rgba(74,58,52,.18), 0 2px 4px rgba(74,58,52,.1);
+    border-radius:3px;
+    position:relative;
+    transition:transform .25s ease;
+  }
+  .month-row:nth-child(odd) .polaroid{transform:rotate(-3deg);}
+  .month-row:nth-child(even) .polaroid{transform:rotate(2.5deg);}
+  .polaroid:hover{transform:rotate(0deg) scale(1.03);z-index:5;}
+
+  .photo-box{
+    width:100%;
+    aspect-ratio:1/1.05;
+    background:linear-gradient(135deg, #fbeef2, #fdf7ec);
+    border:1px solid var(--gold-soft);
+    border-radius:2px;
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+  }
+  .photo-box img, .photo-box video{
+    width:100%;height:100%;object-fit:cover;display:block;background:#000;
+  }
+  .photo-box .placeholder{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--pink-deep);
+    font-family:'Mali', sans-serif;
+    font-size:12.5px;
+    gap:6px;
+    text-align:center;
+    padding:10px;
+  }
+  .photo-box .placeholder .plus{
+    font-size:26px;
+    line-height:1;
+    color:var(--gold);
+  }
+  .photo-box input[type=file]{display:none;}
+
+  .caption{
+    margin-top:10px;
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    text-align:center;
+    font-family:'Charmonman', 'Caveat', cursive;
+    font-size:20px;
+    color:var(--ink);
+    resize:none;
+    overflow:hidden;
+  }
+  .caption::placeholder{color:#c9b8ae;}
+
+  .remove-btn{
+    position:absolute;
+    top:-8px;
+    right:-8px;
+    width:24px;height:24px;
+    border-radius:50%;
+    background:var(--pink-deep);
+    color:#fff;
+    border:2px solid #fff;
+    font-size:13px;
+    line-height:1;
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.2);
+  }
+  .polaroid:hover .remove-btn{display:flex;}
+
+  footer{
+    text-align:center;
+    padding:30px 20px 60px;
+    font-family:'Charmonman', cursive;
+    color:var(--ink-soft);
+    font-size:16px;
+    position:relative;
+    z-index:2;
+  }
+  footer span{color:var(--pink-deep);}
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:640px){
+    .timeline::before{left:22px;}
+    .month-row{justify-content:flex-start;padding-left:44px;}
+    .side{width:100%;}
+    .side.left, .side.right{justify-content:flex-start;margin:0;}
+    .side .doodle-wrap{display:none;}
+    .node{
+      left:22px;
+      top:-2px;
+      transform:translateX(-50%);
+      font-size:12px;
+      padding:4px 10px;
+    }
+    .node::before, .node::after{display:none;}
+    .polaroid{width:100%;max-width:360px;margin:0 auto;padding:16px 16px 50px;}
+    .month-row{margin-bottom:56px;padding-top:22px;}
+    .music-fab{width:48px;height:48px;bottom:16px;right:16px;font-size:19px;}
+    .caption{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="frame-border"></div>
+<div class="corner-flourish corner-tl"><svg viewBox="0 0 60 60"><path d="M4 4 C 20 4, 24 8, 24 20 C 24 30, 30 34, 40 34" stroke="#c9a15a" stroke-width="2" fill="none"/><circle cx="24" cy="20" r="3" fill="#e39aad"/><path d="M4 4 C 4 16, 8 24, 18 26" stroke="#e39aad" stroke-width="1.4" fill="none"/></svg></div>
+<div class="corner-flourish corner-tr"><svg viewBox="0 0 60 60"><path d="M4 4 C 20 4, 24 8, 24 20 C 24 30, 30 34, 40 34" stroke="#c9a15a" stroke-width="2" fill="none"/><circle cx="24" cy="20" r="3" fill="#e39aad"/><path d="M4 4 C 4 16, 8 24, 18 26" stroke="#e39aad" stroke-width="1.4" fill="none"/></svg></div>
+<div class="corner-flourish corner-bl"><svg viewBox="0 0 60 60"><path d="M4 4 C 20 4, 24 8, 24 20 C 24 30, 30 34, 40 34" stroke="#c9a15a" stroke-width="2" fill="none"/><circle cx="24" cy="20" r="3" fill="#e39aad"/><path d="M4 4 C 4 16, 8 24, 18 26" stroke="#e39aad" stroke-width="1.4" fill="none"/></svg></div>
+<div class="corner-flourish corner-br"><svg viewBox="0 0 60 60"><path d="M4 4 C 20 4, 24 8, 24 20 C 24 30, 30 34, 40 34" stroke="#c9a15a" stroke-width="2" fill="none"/><circle cx="24" cy="20" r="3" fill="#e39aad"/><path d="M4 4 C 4 16, 8 24, 18 26" stroke="#e39aad" stroke-width="1.4" fill="none"/></svg></div>
+<div class="frame-sparkle" style="top:14px;left:35%;">✦</div>
+<div class="frame-sparkle" style="top:14px;right:35%;animation-delay:1.2s;">✧</div>
+<div class="frame-sparkle" style="bottom:14px;left:40%;animation-delay:.6s;">✦</div>
+<div class="frame-sparkle" style="bottom:14px;right:40%;animation-delay:1.8s;">✧</div>
+
+<header>
+  <div class="sparkle" style="top:26px;left:12%;">✦</div>
+  <div class="sparkle" style="top:66px;right:14%;animation-delay:1s;">✦</div>
+  <div class="sparkle" style="top:116px;left:22%;animation-delay:2s;">✧</div>
+  <div class="ambient" style="top:10px;right:22%;--r:8deg;font-size:22px;">☁️</div>
+  <div class="ambient" style="top:130px;left:8%;--r:-6deg;font-size:20px;animation-delay:1.5s;">💛</div>
+
+  <h1 class="title">you with me</h1>
+  <svg class="title-flourish" viewBox="0 0 200 20"><path d="M2 10 C 50 -4, 80 24, 100 10 C 120 -4, 150 24, 198 10" stroke="#e39aad" stroke-width="1.5" fill="none"/></svg>
+  <div class="subtitle">ทุกเดือน คือความทรงจำของเรา</div>
+
+  <div class="year-switch">
+    <button id="prevYear">‹</button>
+    <input id="yearInput" type="number" />
+    <button id="nextYear">›</button>
+  </div>
+
+  <div class="music-row">
+    <button class="music-btn" id="musicUploadBtn">🎵 <span id="musicBtnLabel">เพิ่มเพลงประกอบ</span></button>
+    <input type="file" id="musicInput" accept="audio/*" style="display:none;">
+  </div>
+
+  <div class="hint">แตะที่รูปโพลารอยเพื่ออัพโหลดรูปหรือวิดีโอ และพิมพ์ข้อความใต้ภาพได้เลย<br>วิดีโอจะเล่นวนอัตโนมัติตอนเลื่อนมาเจอ (แตะไอคอนลำโพงเพื่อเปิดเสียง)</div>
+</header>
+
+<div class="timeline" id="timeline"></div>
+
+<footer>made with <span>♥</span> for every year we get to add another page</footer>
+
+<audio id="bgMusic" loop></audio>
+<button class="music-fab" id="musicFab" title="เล่น/หยุดเพลง">▶</button>
+
+<script>
+const MONTHS_TH = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+const STORAGE_KEY = "youwithme_data_v1";
+const MUSIC_KEY = "youwithme_music_v1";
+
+const DOODLES = [
+  `<svg viewBox="0 0 64 64"><path d="M32 54 C 8 38, 6 20, 20 14 C 28 10, 32 18, 32 18 C 32 18, 36 10, 44 14 C 58 20, 56 38, 32 54 Z" fill="#f0aec0"/></svg>`, // heart
+  `<svg viewBox="0 0 64 64"><path d="M14 40 Q6 40 6 32 Q6 24 15 24 Q16 14 27 14 Q37 14 39 23 Q50 21 52 31 Q58 32 58 39 Q58 44 52 44 L14 44 Q14 40 14 40 Z" fill="#e8d5ac"/></svg>`, // cloud
+  `<svg viewBox="0 0 64 64"><path d="M32 6 L37 27 L58 32 L37 37 L32 58 L27 37 L6 32 L27 27 Z" fill="#c9a15a"/></svg>`, // sparkle/star
+  `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="4" fill="#e39aad"/><path d="M32 32 C 20 20, 8 22, 8 32 C 8 42, 20 44, 32 32 Z" fill="#f6c9d4"/><path d="M32 32 C 44 20, 56 22, 56 32 C 56 42, 44 44, 32 32 Z" fill="#f6c9d4"/></svg>` // ribbon/bow
+];
+
+function loadData(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function saveData(data){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }catch(e){
+    alert('พื้นที่จัดเก็บเต็ม ลองใช้ไฟล์รูป/วิดีโอที่มีขนาดเล็กลงนะคะ');
+  }
+}
+
+let data = loadData();
+let currentYear = new Date().getFullYear();
+const yearInput = document.getElementById('yearInput');
+yearInput.value = currentYear;
+
+function getEntry(year, monthIdx){
+  const y = data[year] || {};
+  return y[monthIdx] || {media:null, type:null, caption:""};
+}
+function setEntry(year, monthIdx, entry){
+  if(!data[year]) data[year] = {};
+  data[year][monthIdx] = entry;
+  saveData(data);
+}
+
+const videoObserver = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if(en.isIntersecting && en.intersectionRatio >= 0.5){
+      en.target.play().catch(()=>{});
+    } else {
+      en.target.pause();
+    }
+  });
+}, { threshold: [0, 0.5, 1] });
+
+function observeVideo(video){
+  videoObserver.observe(video);
+}
+
+function autoGrow(el){
+  el.style.height = 'auto';
+  el.style.height = (el.scrollHeight) + 'px';
+}
+
+function buildPolaroid(year, monthIdx){
+  const entry = getEntry(year, monthIdx);
+
+  const polaroid = document.createElement('div');
+  polaroid.className = 'polaroid';
+
+  const removeBtn = document.createElement('div');
+  removeBtn.className = 'remove-btn';
+  removeBtn.textContent = '✕';
+  removeBtn.title = 'ลบรูป/วิดีโอ';
+  removeBtn.onclick = (e) => {
+    e.stopPropagation();
+    const cur = getEntry(year, monthIdx);
+    cur.media = null;
+    cur.type = null;
+    setEntry(year, monthIdx, cur);
+    render();
+  };
+  polaroid.appendChild(removeBtn);
+
+  const photoBox = document.createElement('div');
+  photoBox.className = 'photo-box';
+
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*,video/*';
+  fileInput.onchange = (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const isVideo = file.type.startsWith('video/');
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const cur = getEntry(year, monthIdx);
+      cur.media = ev.target.result;
+      cur.type = isVideo ? 'video' : 'image';
+      setEntry(year, monthIdx, cur);
+      render();
+    };
+    reader.readAsDataURL(file);
+  };
+  photoBox.appendChild(fileInput);
+
+  if(entry.media){
+    if(entry.type === 'video'){
+      const video = document.createElement('video');
+      video.src = entry.media;
+      video.controls = true;
+      video.playsInline = true;
+      video.loop = true;
+      video.muted = true; // required by browsers for autoplay; tap the speaker icon in controls to unmute
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
+      photoBox.appendChild(video);
+      observeVideo(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = entry.media;
+      photoBox.appendChild(img);
+    }
+  } else {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'placeholder';
+    placeholder.innerHTML = '<div class="plus">＋</div><div>เพิ่มรูปภาพ หรือวิดีโอ</div>';
+    photoBox.appendChild(placeholder);
+  }
+  photoBox.onclick = (e) => {
+    if(entry.media && entry.type === 'video') return; // let video controls work
+    fileInput.click();
+  };
+  polaroid.appendChild(photoBox);
+
+  const caption = document.createElement('textarea');
+  caption.className = 'caption';
+  caption.rows = 1;
+  caption.placeholder = 'เขียนความทรงจำ...';
+  caption.value = entry.caption || "";
+  caption.oninput = () => {
+    autoGrow(caption);
+    const cur = getEntry(year, monthIdx);
+    cur.caption = caption.value;
+    setEntry(year, monthIdx, cur);
+  };
+  polaroid.appendChild(caption);
+  setTimeout(()=>autoGrow(caption), 0);
+
+  return polaroid;
+}
+
+function buildDoodle(seed){
+  const wrap = document.createElement('div');
+  wrap.className = 'doodle-wrap';
+  wrap.style.transform = `rotate(${(seed % 5 - 2) * 8}deg)`;
+  wrap.innerHTML = DOODLES[seed % DOODLES.length];
+  return wrap;
+}
+
+function render(){
+  yearInput.value = currentYear;
+  videoObserver.disconnect();
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+
+  MONTHS_TH.forEach((monthName, idx) => {
+    const row = document.createElement('div');
+    row.className = 'month-row';
+    const onLeft = idx % 2 === 0;
+    row.classList.add(onLeft ? 'empty-right' : 'empty-left');
+
+    const node = document.createElement('div');
+    node.className = 'node';
+    node.textContent = monthName;
+    row.appendChild(node);
+
+    const leftSide = document.createElement('div');
+    leftSide.className = 'side left';
+    const rightSide = document.createElement('div');
+    rightSide.className = 'side right';
+
+    const polaroid = buildPolaroid(currentYear, idx);
+    if(onLeft){
+      leftSide.appendChild(polaroid);
+      rightSide.appendChild(buildDoodle(idx));
+    } else {
+      rightSide.appendChild(polaroid);
+      leftSide.appendChild(buildDoodle(idx));
+    }
+
+    row.appendChild(leftSide);
+    row.appendChild(rightSide);
+    timeline.appendChild(row);
+  });
+}
+
+document.getElementById('prevYear').onclick = () => { currentYear--; render(); };
+document.getElementById('nextYear').onclick = () => { currentYear++; render(); };
+yearInput.onchange = () => {
+  const v = parseInt(yearInput.value, 10);
+  if(!isNaN(v)){ currentYear = v; render(); }
+};
+
+/* ---------- Music ---------- */
+const bgMusic = document.getElementById('bgMusic');
+const musicFab = document.getElementById('musicFab');
+const musicUploadBtn = document.getElementById('musicUploadBtn');
+const musicInput = document.getElementById('musicInput');
+const musicBtnLabel = document.getElementById('musicBtnLabel');
+
+function loadMusic(){
+  try{ return localStorage.getItem(MUSIC_KEY); }catch(e){ return null; }
+}
+function setupMusic(){
+  const stored = loadMusic();
+  if(stored){
+    bgMusic.src = stored;
+    musicFab.style.display = 'flex';
+    musicBtnLabel.textContent = 'เปลี่ยนเพลง';
+  } else {
+    musicFab.style.display = 'none';
+    musicBtnLabel.textContent = 'เพิ่มเพลงประกอบ';
+  }
+}
+setupMusic();
+
+musicUploadBtn.onclick = () => musicInput.click();
+musicInput.onchange = (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try{
+      localStorage.setItem(MUSIC_KEY, ev.target.result);
+    }catch(err){
+      alert('ไฟล์เพลงใหญ่เกินไปสำหรับพื้นที่จัดเก็บ ลองใช้ไฟล์ที่เล็กลงนะคะ');
+      return;
+    }
+    setupMusic();
+    bgMusic.play().catch(()=>{});
+    musicFab.classList.add('playing');
+    musicFab.textContent = '❚❚';
+  };
+  reader.readAsDataURL(file);
+};
+
+musicFab.onclick = () => {
+  if(bgMusic.paused){
+    bgMusic.play().catch(()=>{});
+    musicFab.classList.add('playing');
+    musicFab.textContent = '❚❚';
+  } else {
+    bgMusic.pause();
+    musicFab.classList.remove('playing');
+    musicFab.textContent = '▶';
+  }
+};
+
+render();
+</script>
+
+</body>
+</html>
